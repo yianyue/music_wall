@@ -6,5 +6,8 @@
   <% if song.url %>
     <a href='<%= song.url %>'>url</a>
   <% end %>
+  <% if session[:user] %>
+    <input class="btn btn-success btn-xs" type="button" value="Input">
+  <% end %>
 </div>
 <% end %>
