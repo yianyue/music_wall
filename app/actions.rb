@@ -1,9 +1,13 @@
 # Homepage (Root path)
+
+enable :sessions
+
 get '/' do
   erb :index
 end
 
 get '/songs' do
+  @user = session[:user]
   @songs = Song.all
   erb :'songs/index'
 end
@@ -29,4 +33,10 @@ post '/songs' do
   else
     erb :'/songs/new'
   end
+end
+
+post '/login' do
+  session[:user] = User.find_by(email: params[:email])
+  redirect '/songs'
+  # erb :'login/user'
 end
