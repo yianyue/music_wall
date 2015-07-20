@@ -19,7 +19,9 @@ post '/songs' do
     author: params[:author],
     url: (params[:url].empty?) ? nil : params[:url]
   )
-  @song.save
+  if @song.save
   redirect '/songs'
-  # erb :'songs/index'
+  else
+    erb :'/songs/new'
+  end
 end
