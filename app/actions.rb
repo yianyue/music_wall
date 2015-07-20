@@ -21,6 +21,16 @@ get '/login' do
   erb :'login/default'
 end
 
+get '/logout' do
+  session[:user] = nil
+  redirect '/songs'
+end
+
+get '/login/user' do
+  @user = session[:user]
+  erb :'login/user'
+end
+
 post '/songs' do
   @song = Song.new(
     title: params[:title],
@@ -37,6 +47,9 @@ end
 
 post '/login' do
   session[:user] = User.find_by(email: params[:email])
-  redirect '/songs'
-  # erb :'login/user'
+  if session[:user]
+    redirect '/songs'
+  else
+    erb :'login/default'
+  end
 end

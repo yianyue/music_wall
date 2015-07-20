@@ -1,8 +1,10 @@
 <div class="navigation">
   <% if @user %>
-    <h2><%= @user.email %></h2>
+    <a href='/login/user'><%= @user.email %></a>
+    <a class="btn btn-info" href='/logout' role="button">logout</a>
   <% else %>
     <a class="btn btn-info" href='/login' role="button">login</a>
+    <a class="btn btn-info" href='/register' role="button">register</a>
   <% end %>
   <a class="btn btn-info" href='/songs/new' role="button">Add New</a>
   
