@@ -18,6 +18,7 @@ get '/songs/new' do
 end
 
 get '/login' do
+  @user = User.new
   erb :'users/login'
 end
 
@@ -27,6 +28,7 @@ get '/logout' do
 end
 
 get '/register' do
+  @user = User.new
   erb :'users/register'
 end
 
@@ -51,7 +53,8 @@ post '/songs' do
 end
 
 post '/login' do
-  session[:user] = User.find_by(email: params[:email])
+  @user = User.find_by(email: params[:email])
+  session[:user] = @user if @user && params[:password] == @user.password
   if session[:user]
     redirect '/songs'
   else
@@ -64,6 +67,10 @@ post '/register' do
     email: params[:email],
     password: params[:password]
   )
-  @user.save!
-  redirect '/songs'
+  if @user.save
+    session[:user] = @user
+    redirect '/songs'
+  else
+    erb :'users/register'
+  end
 end
