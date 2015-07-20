@@ -18,7 +18,7 @@ get '/songs/new' do
 end
 
 get '/login' do
-  erb :'login/default'
+  erb :'users/login'
 end
 
 get '/logout' do
@@ -26,16 +26,21 @@ get '/logout' do
   redirect '/songs'
 end
 
-get '/login/user' do
+get '/register' do
+  erb :'users/register'
+end
+
+get '/songs/from/:user_id' do
   @user = session[:user]
-  erb :'login/user'
+  @songs = @user.songs
+  erb :'songs/index'
 end
 
 post '/songs' do
   @song = Song.new(
     title: params[:title],
     author: params[:author],
-    url: (params[:url].empty?) ? nil : params[:url]
+    url: params[:url]
   )
   
   if @song.save
@@ -50,6 +55,15 @@ post '/login' do
   if session[:user]
     redirect '/songs'
   else
-    erb :'login/default'
+    erb :'users/login'
   end
+end
+
+post '/register' do
+  @user = User.new(
+    email: params[:email],
+    password: params[:password]
+  )
+  @user.save!
+  redirect '/songs'
 end
