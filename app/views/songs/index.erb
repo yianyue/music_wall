@@ -1,0 +1,8 @@
+<h1>See All Songs</h1>
+<% @songs.each do |song| %>
+<div class='song'>
+  <%= song.title %> 
+  <small>added by: <%= song.author %></small> 
+    <a href='<%= song.url %>'>url</a>
+</div>
+<% end %>
