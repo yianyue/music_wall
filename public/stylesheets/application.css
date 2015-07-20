@@ -1,4 +1,10 @@
-a {
-  color: red; }
+body h1 {
+  color: #FF0000; }
+body a {
+  color: pink; }
+body .song {
+  color: black; }
+body small {
+  color: gray; }
 
 /*# sourceMappingURL=application.css.map */
