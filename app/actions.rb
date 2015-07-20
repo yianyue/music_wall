@@ -13,6 +13,10 @@ get '/songs/new' do
   erb :'songs/new'
 end
 
+get '/login' do
+  erb :'login/default'
+end
+
 post '/songs' do
   @song = Song.new(
     title: params[:title],
