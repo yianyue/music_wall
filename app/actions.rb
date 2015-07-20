@@ -7,7 +7,6 @@ get '/' do
 end
 
 get '/songs' do
-  @user = session[:user]
   @songs = Song.all
   erb :'songs/index'
 end
@@ -15,6 +14,12 @@ end
 get '/songs/new' do
   @song = Song.new
   erb :'songs/new'
+end
+
+get '/songs/from/:user_id' do
+  @user = User.find(params[:user_id])
+  @songs = @user.songs
+  erb :'songs/from_user'
 end
 
 get '/login' do
@@ -32,20 +37,13 @@ get '/register' do
   erb :'users/register'
 end
 
-get '/songs/from/:user_id' do
-  @user = session[:user]
-  @songs = @user.songs
-  erb :'songs/index'
-end
-
 post '/songs' do
   @song = Song.new(
     title: params[:title],
-    author: params[:author],
     url: params[:url]
   )
-  
   if @song.save
+    session[:user].songs << @song
     redirect '/songs'
   else
     erb :'/songs/new'
@@ -54,6 +52,7 @@ end
 
 post '/login' do
   @user = User.find_by(email: params[:email])
+  # TODO: display message when login fails
   session[:user] = @user if @user && params[:password] == @user.password
   if session[:user]
     redirect '/songs'

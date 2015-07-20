@@ -21,6 +21,17 @@
 </head>
 <body>
 <div class="container-fluid">
+<div class="navigation">
+<a class="btn btn-info" href='/songs' role="button">All Songs</a>
+  <% if session[:user] %>
+    <a href='/songs/from/<%= session[:user].id %>'><%=session[:user].email %></a>
+    <a class="btn btn-info" href='/songs/new' role="button">Add New Song</a>
+    <a class="btn btn-info" href='/logout' role="button">logout</a>
+  <% else %>
+    <a class="btn btn-info" href='/login' role="button">login</a>
+    <a class="btn btn-info" href='/register' role="button">register</a>
+  <% end %>  
+</div>
   <%= yield %>
 </div>
 </body>

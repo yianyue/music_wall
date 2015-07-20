@@ -15,7 +15,6 @@ ActiveRecord::Schema.define(version: 2015072013441437414280) do
 
   create_table "songs", force: :cascade do |t|
     t.string   "title"
-    t.string   "author"
     t.string   "url"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
