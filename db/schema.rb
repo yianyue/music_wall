@@ -23,6 +23,11 @@ ActiveRecord::Schema.define(version: 2015072013441437414280) do
 
   add_index "songs", ["user_id"], name: "index_songs_on_user_id"
 
+  create_table "upvotes", id: false, force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.integer "song_id", null: false
+  end
+
   create_table "users", force: :cascade do |t|
     t.string   "email"
     t.string   "password"
