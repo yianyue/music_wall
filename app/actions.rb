@@ -1,6 +1,6 @@
 # Homepage (Root path)
 
-enable :sessions
+# Is it better to store the logged in user in session?
 
 get '/' do
   erb :index
@@ -27,19 +27,8 @@ get '/login' do
   erb :'users/login'
 end
 
-get '/login/user' do
-  @user = User.find_by(email: params[:email])
-  # TODO: display message when login fails
-  session[:user] = @user if @user && params[:password] == @user.password
-  if session[:user]
-    redirect '/songs'
-  else
-    erb :'users/login'
-  end
-end
-
 get '/logout' do
-  session[:user] = nil
+  session[:user_id] = nil
   redirect '/songs'
 end
 
@@ -54,10 +43,21 @@ post '/songs' do
     url: params[:url]
   )
   if @song.save
-    session[:user].songs << @song
+    Song.find(session[:user_id]).songs << @song
     redirect '/songs'
   else
     erb :'/songs/new'
+  end
+end
+
+post '/login' do
+  @user = User.find_by(email: params[:email])
+  # TODO: display message when login fails
+  session[:user_id] = @user.id if @user && params[:password] == @user.password
+  if session[:user_id]
+    redirect '/songs'
+  else
+    erb :'users/login'
   end
 end
 
@@ -67,7 +67,7 @@ post '/register' do
     password: params[:password]
   )
   if @user.save
-    session[:user] = @user
+    session[:user_id] = @user.id
     redirect '/songs'
   else
     erb :'users/register'
@@ -76,11 +76,12 @@ end
 
 post '/songs/upvote/:id' do
   @upvote = Upvote.new
-  @upvote.user = session[:user]
+  @upvote.user = User.find(session[:user_id])
   @upvote.song = Song.find(params[:id]) # This query seems like a waste
   if @upvote.save
     redirect '/songs'
   else
-    # TODO: display the errors on the songs/index pagee
+    # TODO: display the errors on the songs/index page
+    
   end
 end

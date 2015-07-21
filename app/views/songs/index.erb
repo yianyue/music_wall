@@ -6,16 +6,14 @@
   <% if song.url %>
     <a href='<%= song.url %>'>url</a>
   <% end %>
+
+   <%= song.votes %> 
+
+  <% if session[:user_id] && Upvote.find_by(user_id: session[:user_id], song_id: song.id).nil? %>
+    <form method='post' action="/songs/upvote/<%= song.id %>">
+      <input class="btn btn-success btn-xs" type="submit" name="upvote" value="Upvote">
+    </form>
+  <% end %>
   
-  <%= song.votes %> 
-
-  <% if session[:user] %>
-    <form method='post' action="/songs/upvote/<%= song.id %>"><input class="btn btn-success btn-xs" type="submit" name="upvote" value="Upvote"></form>
-  <% end %>
-
-  <% if @upvote && @upvote.errors.any? %>
-  <div class="error">Error message</div>
-  <% end %>
-
 </div>
 <% end %>
