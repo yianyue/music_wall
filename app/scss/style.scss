@@ -3,17 +3,3 @@ $linkColor: pink;
 $textColor: black;
 $smallColor: gray;
 
-body {
-  h1 {
-    color: $primaryColor; 
-  }
-  a {
-    color: $linkColor;
-  }
-  .song {
-    color: $textColor;
-  }
-  small {
-    color: $smallColor;
-  }
-}

@@ -1,19 +1,21 @@
 <h1>All Songs</h1>
 <% @songs.each do |song| %>
 <div class='song'>
-  <%= song.title %> 
-  <small>added by: <%= song.user.email %></small> 
-  <% if song.url %>
-    <a href='<%= song.url %>'>url</a>
-  <% end %>
-
-   <%= song.votes %> 
-
+  <div class='vote'><%= song.votes %> votes
   <% if session[:user_id] && Upvote.find_by(user_id: session[:user_id], song_id: song.id).nil? %>
     <form method='post' action="/songs/upvote/<%= song.id %>">
       <input class="btn btn-success btn-xs" type="submit" name="upvote" value="Upvote">
     </form>
   <% end %>
+  </div>
+  <p class='title'>
+  <% if song.url %>
+    <a href='<%= song.url %>'><%= song.title %></a>
+  <% else %>
+    <%= song.title %> 
+  <% end %>
+  </p>
+  <small>added by: <%= song.user.email %></small> 
   
 </div>
 <% end %>

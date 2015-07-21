@@ -20,18 +20,21 @@
   <title></title>
 </head>
 <body>
+<header class="navbar navbar-static-top bs-docs-nav" id="top" role="banner">
+    <ul class="nav nav-tabs">
+        <li role="presentation"><a href="/songs">All Songs</a></li>
+      <% if session[:user_id] %>
+        <li role="presentation"><a href='/songs/new'>Add New Song</a></li>
+        <li role="presentation"><a href='/songs/from/<%= session[:user_id] %>'><%=User.find(session[:user_id]).email %></a></li>
+        <li role="presentation"><a href='/logout'>logout</a></li>
+      <% else %>
+        <li role="presentation"><a href='/login'>login</a></li>
+        <li role="presentation"><a href='/register'>register</a></li>
+      <% end %>
+    </ul>
+</header>
+
 <div class="container-fluid">
-<div class="navigation">
-<a class="btn btn-info" href='/songs' role="button">All Songs</a>
-  <% if session[:user_id] %>
-    <a href='/songs/from/<%= session[:user_id] %>'><%=User.find(session[:user_id]).email %></a>
-    <a class="btn btn-info" href='/songs/new' role="button">Add New Song</a>
-    <a class="btn btn-info" href='/logout' role="button">logout</a>
-  <% else %>
-    <a class="btn btn-info" href='/login' role="button">login</a>
-    <a class="btn btn-info" href='/register' role="button">register</a>
-  <% end %>  
-</div>
   <%= yield %>
 </div>
 </body>
