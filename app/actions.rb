@@ -18,6 +18,8 @@ end
 
 get '/songs/show/:song_id' do
   @song = Song.find(params[:song_id])
+  @reviews = @song.reviews
+  @review = Review.new
   erb :'songs/show'
 end
 
@@ -91,5 +93,18 @@ post '/songs/upvote/:id' do
   else
     # TODO: display the errors on the songs/index page
     
+  end
+end
+
+post '/review/:song_id' do
+  @review = Review.new(
+    user_id: session[:user_id], 
+    song_id: params[:song_id],
+    content: params[:content]
+    )
+  if @review.save
+    redirect "/songs/show/#{@review.song_id}"
+  else
+    erb :'/songs/show'
   end
 end

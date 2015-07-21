@@ -2,6 +2,7 @@ class Song < ActiveRecord::Base
 
   belongs_to :user
   has_many :upvotes
+  has_many :reviews
 
   validates :title, presence: true
   validates :url, format: {with: URI::regexp}, if: Proc.new { |a| a.url.present? }
