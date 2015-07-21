@@ -16,6 +16,11 @@ get '/songs/new' do
   erb :'songs/new'
 end
 
+get '/songs/show/:song_id' do
+  @song = Song.find(params[:song_id])
+  erb :'songs/show'
+end
+
 get '/songs/from/:user_id' do
   @user = User.find(params[:user_id])
   @songs = @user.songs
@@ -40,10 +45,10 @@ end
 post '/songs' do
   @song = Song.new(
     title: params[:title],
-    url: params[:url]
+    url: params[:url],
+    user_id: session[:user_id]
   )
   if @song.save
-    Song.find(session[:user_id]).songs << @song
     redirect '/songs'
   else
     erb :'/songs/new'

@@ -1,0 +1,11 @@
+<h2>
+<%= @song.title %> 
+<span class="badge"><%= @song.votes %> votes</span>
+</h2>
+
+<p>added by: <%= @song.user.email %></p>
+<% if @song.url %>
+  <p><a href='<%= @song.url %>'>url</a></p>
+<% end %>
+<p>created at: <%= @song.created_at %></p>
+<p>updated at: <%= @song.updated_at %></p>

@@ -1,6 +1,6 @@
-<h1>Register</h1>
+<h2>Register</h2>
 <% if @user.errors.any? %>
-  <div>
+  <div class="alert alert-danger" role="alert">
     <strong>Registration Failed:</strong>
     <ul>
       <% @user.errors.full_messages.each do |user| %>
