@@ -9,6 +9,8 @@
       <p><small>added by: <%= song.user.email %></small></p>
 
       <span class="badge"><%= song.upvotes_count %> votes</span>
+      
+      <!-- this find_by is very wasteful, no? -->
       <% if session[:user_id] && Upvote.find_by(user_id: session[:user_id], song_id: song.id).nil? %>
         <form method='post' action="/songs/upvote/<%= song.id %>" style="display: inline;">
           <button class="btn btn-info btn-xs" type="submit" name="upvote">upvote</button>
