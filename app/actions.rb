@@ -7,7 +7,7 @@ get '/' do
 end
 
 get '/songs' do
-  @songs = Song.all
+  @songs = Song.all.order(upvotes_count: :desc)
   erb :'songs/index'
 end
 
@@ -85,9 +85,7 @@ post '/register' do
 end
 
 post '/songs/upvote/:id' do
-  @upvote = Upvote.new
-  @upvote.user = User.find(session[:user_id])
-  @upvote.song = Song.find(params[:id]) # This query seems like a waste
+  @upvote = Upvote.new(user_id: session[:user_id], song_id: params[:id])
   if @upvote.save
     redirect '/songs'
   else
