@@ -53,10 +53,15 @@ end
 post '/login' do
   @user = User.find_by(email: params[:email])
   # TODO: display message when login fails
-  session[:user_id] = @user.id if @user && params[:password] == @user.password
-  if session[:user_id]
+  case 
+  when @user.nil?
+    @login_error = "User not find."
+    erb :'users/login'
+  when params[:password] == @user.password
+    session[:user_id] = @user.id
     redirect '/songs'
   else
+    @login_error = "Wrong password."
     erb :'users/login'
   end
 end

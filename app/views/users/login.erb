@@ -1,5 +1,11 @@
 <h1>Login</h1>
 
+<% if @login_error %>
+  <div class="error">
+  <%= @login_error %>
+  </div>
+<% end %>
+
 <form method="post" action="/login">
   <div class="form-group">
     <label for="exampleInputEmail1">Email address</label>
