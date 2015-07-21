@@ -9,6 +9,10 @@ class Song < ActiveRecord::Base
 
   before_create :remove_empty_string
 
+  def votes
+    self.upvotes.size
+  end
+
   private
 
   def remove_empty_string

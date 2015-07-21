@@ -38,7 +38,6 @@ get '/login/user' do
   end
 end
 
-
 get '/logout' do
   session[:user] = nil
   redirect '/songs'
@@ -75,13 +74,13 @@ post '/register' do
   end
 end
 
-post 'songs/upvote' do
+post '/songs/upvote/:id' do
   @upvote = Upvote.new
   @upvote.user = session[:user]
-  @upvote.song = Song.find(params[:id])
-  if 
+  @upvote.song = Song.find(params[:id]) # This query seems like a waste
+  if @upvote.save
     redirect '/songs'
   else
-
+    # TODO: display the errors on the songs/index pagee
   end
 end

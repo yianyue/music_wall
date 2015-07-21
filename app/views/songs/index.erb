@@ -6,8 +6,16 @@
   <% if song.url %>
     <a href='<%= song.url %>'>url</a>
   <% end %>
+  
+  <%= song.votes %> 
+
   <% if session[:user] %>
-    <input class="btn btn-success btn-xs" type="button" value="Input">
+    <form method='post' action="/songs/upvote/<%= song.id %>"><input class="btn btn-success btn-xs" type="submit" name="upvote" value="Upvote"></form>
   <% end %>
+
+  <% if @upvote && @upvote.errors.any? %>
+  <div class="error">Error message</div>
+  <% end %>
+
 </div>
 <% end %>
