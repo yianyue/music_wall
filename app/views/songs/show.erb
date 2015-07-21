@@ -11,12 +11,12 @@
  updated at: <%= @song.updated_at %></p>
 
 <div class='review'>
-<% if @review.errors.any? %>
+<% if @new_review.errors.any? %>
   <div class="alert alert-danger" role="alert">
     <strong>Some issues with your review, please fix them:</strong>
     <ul>
-      <% @review.errors.full_messages.each do |review| %>
-        <li><%= review %></li>
+      <% @new_review.errors.full_messages.each do |error| %>
+        <li><%= error %></li>
       <% end %>
     </ul>
   </div>
@@ -25,7 +25,7 @@
 <form method="post" action="/review/<%= @song.id %>">
   <div class='form-group'>
     <label>Title</label>
-    <input type="text" name="content" class="form-control" placeholder='review' value="<%= @review.content %>">
+    <input type="text" name="content" class="form-control" placeholder='review' value="<%= @new_review.content %>">
   </div>
   <div class='form-group'>
     <button type="submit" class="btn btn-default">Submit</button>
