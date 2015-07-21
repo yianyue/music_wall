@@ -111,3 +111,9 @@ post '/review/:song_id' do
     erb :'/songs/show'
   end
 end
+
+post '/reviews/delete/:review_id' do
+  @delete_review = Review.find(params[:review_id])
+  @delete_review.destroy!
+  redirect "/songs/show/#{@delete_review.song.id}"
+end
