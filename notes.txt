@@ -1,0 +1,40 @@
+post requests need to protect against double clicks
+
+http://api.rubyonrails.org/classes/ActiveModel/SecurePassword/ClassMethods.html
+
+
+RESTful:
+  /songs/show/:id -> /songs/:id
+  /users/:id/songs
+
+  /songs/:id/upvote
+
+  /review -> /reviews (or makes other singular)
+
+  delete '/reviews/:id'i
+
+<input name=user[name] >
+<input name=user[password] >
+
+  User.new(params[:user])
+
+user.upvote(song)
+
+
+sinatra helper
+  current_user
+    User.find(session[:id]) if session[:id]
+  end
+  current_user?
+    session[:id].nil?
+  end
+
+don\t use session inside of views
+
+dont use Classes inside of views
+
+/songs/from/:id is broken
+
+
+google sinatra partials
+  erb :'songs/_some_partial', :locals => {:user user}
