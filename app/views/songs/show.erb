@@ -9,7 +9,7 @@
  updated at: <%= @song.updated_at %>
 </p>
 
-<div class='review'>
+<div class='col-md-8'>
   <% if @new_review.errors.any? %>
     <div class="alert alert-danger" role="alert">
       <strong>Some issues with your review, please fix them:</strong>
@@ -21,37 +21,47 @@
     </div>
   <% end %>
 
-
-  <h3>Reviews</h3>
   <% if session[:user_id] && @reviews.find_by(user_id: session[:user_id]).nil? %>
-    <h4>Add yours</h4>
+  <h3>Review</h3>
     <form method="post" action="/review/<%= @song.id %>">
       <div class='form-group'>
-        <label>Add review:</label>
+      <label>Rating:</label>
+      <select class="form-control" name="rating">
+        <option>1</option>
+        <option>2</option>
+        <option>3</option>
+        <option>4</option>
+        <option>5</option>
+      </select>
+      </div>
+      <div class='form-group'>      
+        <label>Comment:</label>
         <textarea class="form-control" rows="3" name="content" placeholder='review' value="<%= @new_review.content %>"></textarea>
       </div>
       <div class='form-group'>
-        <button type="submit" class="btn btn-default">Review</button>
+        <button type="submit" class="btn btn-default">Submit</button>
       </div>
     </form>
   <% end %>
-
-  <ul class="media-list list-group">
+  
+  <% if @reviews.any? %>
+    <ul class="media-list list-group">
     <% @reviews.each do |review| %>
       <li class="media list-group-item">
         <div class="media-left">
-          <%= review.user.email %>
+          <p><%= review.user.email %></p>
           <% if session[:user_id] == review.user.id %>
-        <form method='post' action="/reviews/delete/<%= review.id %>" style="display: inline;">
-          <button class="btn btn-danger btn-xs" type="submit" name="delete_review">delete</button>
-        </form>
-      <% end %>
+            <form method='post' action="/reviews/delete/<%= review.id %>" style="display: inline;">
+              <button class="btn btn-danger btn-xs" type="submit" name="delete_review">delete</button>
+            </form>
+          <% end %>
         </div>
         <div class="media-body">
+          <h4 class="media-heading">Rating: <%= review.rating %></h4>
           <%= review.content %>
         </div>
       </li>
     <% end %>
-  </ul>
-
+    </ul>
+  <% end %>
 </div>

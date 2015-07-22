@@ -100,6 +100,7 @@ post '/review/:song_id' do
   @new_review = Review.new(
     user_id: session[:user_id], 
     song_id: params[:song_id],
+    rating: params[:rating],
     content: params[:content]
     )
   if @new_review.save
