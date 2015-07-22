@@ -1,0 +1,11 @@
+<% if @errors.any? %>
+  <div class="alert alert-danger" role="alert">
+    <strong>Registration Failed:</strong>
+    <ul>
+    <!-- change this so only an @errors array is passed in -->
+      <% @errors.each do |user| %>
+        <li><%= user %></li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>

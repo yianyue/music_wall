@@ -31,6 +31,7 @@ end
 
 get '/login' do
   @user = User.new
+  @errors = []
   erb :'users/login'
 end
 
@@ -41,6 +42,7 @@ end
 
 get '/register' do
   @user = User.new
+  @errors = []
   erb :'users/register'
 end
 
@@ -50,25 +52,27 @@ post '/songs' do
     url: params[:url],
     user_id: session[:user_id]
   )
+  @errors = []
   if @song.save
     redirect '/songs'
   else
+    @errors = @user.errors.full_messages
     erb :'/songs/new'
   end
 end
 
 post '/login' do
   @user = User.find_by(email: params[:email])
-  # TODO: display message when login fails
+  @errors = []
   case 
   when @user.nil?
-    @login_error = "User not find."
+    @errors << "User not found."
     erb :'users/login'
   when params[:password] == @user.password
     session[:user_id] = @user.id
     redirect '/songs'
   else
-    @login_error = "Wrong password."
+    @errors << "Wrong password."
     erb :'users/login'
   end
 end
@@ -78,22 +82,21 @@ post '/register' do
     email: params[:email],
     password: params[:password]
   )
+  @errors = []
   if @user.save
     session[:user_id] = @user.id
     redirect '/songs'
   else
+    @errors = @user.errors.full_messages
     erb :'users/register'
   end
 end
 
 post '/songs/upvote/:id' do
   @upvote = Upvote.new(user_id: session[:user_id], song_id: params[:id])
-  if @upvote.save
-    redirect '/songs'
-  else
-    # TODO: display the errors on the songs/index page
-    
-  end
+  @upvote.save
+  # if upvote.save fails, it would do so silently
+  redirect '/songs'
 end
 
 post '/review/:song_id' do
