@@ -1,0 +1,22 @@
+<% @songs.each do |song| %>
+<div class="row">  
+  <div class="col-xs-6 col-md-4">
+  <div class="thumbnail">
+    <div class="caption">
+      <h4><a href='songs/show/<%= song.id %>'><%= song.title %></a></h4>
+      <p><small>added by: <%= song.user.email %></small></p>
+
+      <span class="badge"><%= song.upvotes_count %> votes</span>
+
+      <!-- this find_by is very wasteful, no? -->
+      
+      <% if session[:user_id] && Upvote.find_by(user_id: session[:user_id], song_id: song.id).nil? %>
+        <form method='post' action="/songs/upvote/<%= song.id %>" style="display: inline;">
+          <button class="btn btn-info btn-xs" type="submit" name="upvote">upvote</button>
+        </form>
+      <% end %>
+    </div>
+  </div>
+  </div>
+</div>
+<% end %>
